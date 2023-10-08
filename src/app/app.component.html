@@ -1,30 +1,24 @@
-<header #header>
-  <nav>
-    <div routerLink="" id="containerLogo" (click)="scrollToElement(header)">
-      <img src="/assets/images/logo-removebg.png" alt="">
-      <p>Boulangerie Günes Seraing: c'est l'heure du Pain</p>
-    </div>
-    <div>
-      <a href="tel:+32-4-266-65-05"><i class="fa-solid fa-phone"></i>Appeler maintenant</a>
-      <a href="https://www.google.com/maps/dir//Boulangerie+G%C3%BCnes+Seraing:+c%27est+l%27heure+du+Pain/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c0f95a0dacd34b:0xf68aa6d539a36f9!2m2!1d5.5125725999999995!2d50.610732399999996"><i class="fa-solid fa-map-location-dot"></i>Itinéraire</a>
-    </div>
+<header id="main-header" #header>
+  <img src="/assets/images/logo-removebgw.png" alt="">
+  <i class="fa-solid fa-bars" id="hamburger" (click)="toggleMenu()" [style.display]="toggleMenuValue ? 'none' : 'block'"></i>
+  <i class="fa-solid fa-xmark" id="cross" (click)="toggleMenu()" [style.display]="!toggleMenuValue ? 'none' : 'block'"></i>
+
+  <nav [style.display]="toggleMenuValue ? 'flex' : 'none'">
+    <a (click)="scrollToTop()"><i class="fa-solid fa-home"></i>Accueil</a>
+    <a href="tel:+32-4-266-65-05"><i class="fa-solid fa-phone"></i>Appeler maintenant</a>
+    <a
+      href="https://www.google.com/maps/dir//Boulangerie+G%C3%BCnes+Seraing:+c%27est+l%27heure+du+Pain/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c0f95a0dacd34b:0xf68aa6d539a36f9!2m2!1d5.5125725999999995!2d50.610732399999996"><i
+      class="fa-solid fa-map-location-dot"></i>Itinéraire</a>
   </nav>
-  <div id="slider" class="slide">
-    <div id="contentSlide">
-      <h1>Boulangerie Günes Seraing: c'est l'heure du Pain</h1>
-<!--      <div>-->
-<!--        <p>Boulangerie à Seraing</p>-->
-<!--        <p>Ouvert aujourd'hui jusqu'à 20:00</p>-->
-<!--        <a href="tel:+32-4-266-65-05"><i class="fa-solid fa-phone"></i>Appeler maintenant</a>-->
-<!--      </div>-->
-    </div>
-    <div id="precedent" (click)="ChangeSlide(-1)"><</div>
-    <div id="suivant" (click)="ChangeSlide(1)">></div>
-  </div>
 </header>
-<section #galerie id="galerie">
-  <h2>Notre galerie</h2>
-  <div class="galerie-container">
+<section id="WelcomeContainer">
+  <div>
+    <h1>Boulangerie Günes Seraing</h1>
+    <p>c'est l'heure du Pain</p>
+  </div>
+</section>
+<section id="LittleGallery">
+  <div id="imgContainer">
     <img src="/assets/images/galerie/gal01.jpg" alt="galerieImg" draggable="false">
     <img src="/assets/images/galerie/gal02.jpg" alt="galerieImg" draggable="false">
     <img src="/assets/images/galerie/gal03.jpg" alt="galerieImg" draggable="false">
@@ -33,14 +27,47 @@
     <img src="/assets/images/galerie/gal06.jpg" alt="galerieImg" draggable="false">
     <img src="/assets/images/galerie/gal07.jpg" alt="galerieImg" draggable="false">
     <img src="/assets/images/galerie/gal08.jpg" alt="galerieImg" draggable="false">
-    <img src="/assets/images/galerie/gal09.jpg" alt="galerieImg" draggable="false">
   </div>
 </section>
-<section #coordonnees id="coordonnees">
-  <h2>Nos coordonnées</h2>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d1952.361420102891!2d5.512822851955838!3d50.61040956554763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x47c0f95a0dacd34b%3A0xf68aa6d539a36f9!2schez%20gunes!3m2!1d50.610395399999994!2d5.512378399999999!5e0!3m2!1sfr!2sbe!4v1694779688002!5m2!1sfr!2sbe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-  <div id="containerCoordonnees">
-    <div id="firstContainerCoordonnee">
+<section id="parralaxSection">
+
+</section>
+<section id="suite">
+  <div id="firstContainer">
+    <div id="containerCalendar">
+      <h3>Horaires d'ouverture</h3>
+      <ul id="scheduleDay">
+        <li>
+          <span>Dim.</span>
+          <span>07:00 – 20:00</span>
+        </li>
+        <li>
+          <span>Lun.</span>
+          <span>06:00 – 20:00</span>
+        </li>
+        <li>
+          <span>Mar.</span>
+          <span>06:00 – 20:00</span>
+        </li>
+        <li>
+          <span>Mer.</span>
+          <span>06:00 – 20:00</span>
+        </li>
+        <li>
+          <span>Jeu.</span>
+          <span>06:00 – 20:00</span>
+        </li>
+        <li>
+          <span>Ven.</span>
+          <span>06:00 – 20:00</span>
+        </li>
+        <li>
+          <span>Sam.</span>
+          <span>07:00 – 20:00</span>
+        </li>
+      </ul>
+    </div>
+    <div  id="coord">
       <div>
         <h3>Coordonnées</h3>
         <a href="tel:+32-4-266-65-05"><i class="fa-solid fa-phone"></i>Appeler maintenant</a>
@@ -48,55 +75,18 @@
       </div>
       <div>
         <h3>Adresse</h3>
-        <a href="https://www.google.com/maps/dir//Boulangerie+G%C3%BCnes+Seraing:+c%27est+l%27heure+du+Pain/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c0f95a0dacd34b:0xf68aa6d539a36f9!2m2!1d5.5125725999999995!2d50.610732399999996"><i class="fa-solid fa-map-location-dot"></i>Itinéraire</a>
-        <p>Rue Cockerill 176
-          4100 Seraing
+        <a
+          href="https://www.google.com/maps/dir//Boulangerie+G%C3%BCnes+Seraing:+c%27est+l%27heure+du+Pain/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c0f95a0dacd34b:0xf68aa6d539a36f9!2m2!1d5.5125725999999995!2d50.610732399999996"><i
+          class="fa-solid fa-map-location-dot"></i>Itinéraire</a>
+        <p>Rue Cockerill 176<br/>
+          4100 Seraing<br/>
           Belgique</p>
       </div>
     </div>
-    <div id="secondContainerCoordonnee">
-      <div>
-        <h3>Horaires d'ouverture</h3>
-        <ul id="scheduleDay">
-          <li>
-            <span>Lun.</span>
-            <span>06:00 – 20:00</span>
-          </li>
-          <li>
-            <span>Mar.</span>
-            <span>06:00 – 20:00</span>
-          </li>
-          <li>
-            <span>Mer.</span>
-            <span>06:00 – 20:00</span>
-          </li>
-          <li>
-            <span>Jeu.</span>
-            <span>06:00 – 20:00</span>
-          </li>
-          <li>
-            <span>Ven.</span>
-            <span>06:00 – 20:00</span>
-          </li>
-          <li>
-            <span>Sam.</span>
-            <span>07:00 – 20:00</span>
-          </li>
-          <li>
-            <span>Dim.</span>
-            <span>07:00 – 20:00</span>
-          </li>
-        </ul>
+  </div>
+  <div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d1952.361420102891!2d5.512822851955838!3d50.61040956554763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x47c0f95a0dacd34b%3A0xf68aa6d539a36f9!2schez%20gunes!3m2!1d50.610395399999994!2d5.512378399999999!5e0!3m2!1sfr!2sbe!4v1694779688002!5m2!1sfr!2sbe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
-      </div>
-    </div>
   </div>
 </section>
-<div id="navigationMenu" [ngClass]="{activeMenu: isMenuActive,notActive:!isMenuActive}">
-  <ul>
-    <li (click)="scrollToElement(header)">Accueil</li>
-    <li (click)="scrollToElement(galerie)">Galérie</li>
-    <li (click)="scrollToElement(coordonnees)">Coordonées</li>
-  </ul>
-</div>
-<span id="buttonNavigation" (click)="toggleNavigationMenu()" [ngClass]="{buttonIfNavActive: isMenuActive,buttonIfNavNotActive:!isMenuActive}"><i class="fa-solid fa-bars"></i></span>
+

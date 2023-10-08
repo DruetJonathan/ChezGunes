@@ -1,86 +1,137 @@
-import {Component, HostListener, OnInit, Renderer2} from '@angular/core';
-
+import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
+import * as Hammer from 'hammerjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
-  title = 'ChezGunes';
-  currentSlideIndex = 0;
-  slide = [
-    "/assets/images/slider/02.jpg",
-    "/assets/images/slider/01.JPG",
-    "/assets/images/slider/03.jpg",
-    "/assets/images/slider/04.jpg"
-  ];
-  isMenuActive : boolean = false;
-  ChangeSlide(direction: number): void {
-    this.currentSlideIndex += direction;
+export class AppComponent implements OnInit {
 
-    if (this.currentSlideIndex < 0) {
-      this.currentSlideIndex = this.slide.length - 1;
-    } else if (this.currentSlideIndex >= this.slide.length) {
-      this.currentSlideIndex = 0;
-    }
-
-    const slideElement: HTMLElement | null = document.querySelector(".slide");
-    if (slideElement) {
-      slideElement.style.backgroundImage = `url('${this.slide[this.currentSlideIndex]}')`;
-    }
-  }
-  handleScroll(event: Event) {
-    const scrollTop = window.scrollY;
-    let nav = document.getElementsByTagName("nav");
-    let navMenu = document.getElementById("navigationMenu");
-      if (scrollTop === 0) {
-        nav[0].style.background = "rgba(221, 170, 68,0.6)";
-        navMenu!.style.background = "rgba(221, 170, 68,0.6)";
-      }else{
-        nav[0].style.background = "#ddaa44";
-        navMenu!.style.background = "#ddaa44";
-      }
-
-  }
-
-
-  ngOnInit(): void {
-    this.detectTheDay();
-    window.addEventListener("scroll", this.handleScroll);
-
-  }
-
+  ////////////////////////////////////////////////////////////////////////////////////
   constructor(private renderer: Renderer2) {
   }
+  @ViewChild('imgContainer') imgContainer!: ElementRef;
+  ngOnInit(): void {
+    // gallery.ts
+    const hammer = new Hammer(this.imgContainer.nativeElement);
+    hammer.get('doubletap').recognizeWith('pan');
+    hammer.on('doubletap', (e: HammerInput) => {
+      // Gestionnaire d'événement doubletap (peut être vide)
+    });
 
-  toggleNavigationMenu(){
-    this.isMenuActive = !this.isMenuActive;
-  }
-  // permet de scrool smooth car ens css fonctionnait pas
-  scrollToElement($element: any): void {
-    // Récupérez la hauteur de votre en-tête
-    const navHeight = document.getElementsByTagName('nav')[0].offsetHeight;
-    console.log(navHeight)
+    let isDragging = false;
+    let startX: number;
+    let scrollLeft: number;
 
-    // Récupérez la position de l'élément cible par rapport au haut de la page
-    const elementPosition = $element.getBoundingClientRect().top;
+    hammer.on('panstart', (e: HammerInput) => {
+      isDragging = true;
+      startX = e.center.x;
+      scrollLeft = this.imgContainer.nativeElement.scrollLeft;
+      this.imgContainer.nativeElement.style.cursor = 'grabbing';
+    });
 
-    // Calculez la position de défilement en soustrayant la hauteur de l'en-tête
-    const scrollToPosition = elementPosition + window.scrollY - navHeight;
+    hammer.on('panmove', (e: HammerInput) => {
+      if (!isDragging) return;
+      const x = e.center.x;
+      const walk = (x - startX) * 2;
+      this.imgContainer.nativeElement.scrollLeft = scrollLeft - walk;
+    });
 
-    // Appliquez une transition CSS pour déplacer la page jusqu'à la nouvelle position
-    window.scrollTo({ top: scrollToPosition ,behavior:"smooth"});
+    hammer.on('panend', () => {
+      isDragging = false;
+      this.imgContainer.nativeElement.style.cursor = 'grab';
+    });
 
-  }
-  detectTheDay(){
-    let date = new Date().getDay();
-    let tmp: HTMLElement | null = document.getElementById("scheduleDay");
-    console.log("ici")
-    if (tmp){
-      let children = tmp.children[date]
-      this.renderer.setStyle(children,'background','white')
-      this.renderer.setStyle(children,'color','black')
-      console.log("ici")
+// Attendre que le DOM soit prêt
+//     document.addEventListener("DOMContentLoaded", () => {
+//       // Sélectionnez votre conteneur d'images
+//       const imgContainer = document.getElementById("imgContainer");
+//       const makeyframe = document.querySelector(".fade-in");
+//       let isDragging = false;
+//       let startX: number;
+//       let scrollLeft: number;
+//
+//
+//       const startDrag = (e: Event) => {
+//         e.preventDefault();
+//         isDragging = true;
+//         const event = e instanceof MouseEvent ? e : (e as TouchEvent).touches[0];
+//         startX = event.pageX - (imgContainer?.offsetLeft || 0);
+//         scrollLeft = imgContainer?.scrollLeft || 0;
+//         imgContainer?.style.setProperty("cursor", "grabbing");
+//       };
+//
+//       const handleDrag = (e: Event) => {
+//         if (!isDragging) return;
+//         e.preventDefault();
+//         const event = e instanceof MouseEvent ? e : (e as TouchEvent).touches[0];
+//         const x = event.pageX - (imgContainer?.offsetLeft || 0);
+//         const walk = (x - startX) * 2; // Ajustez le facteur pour contrôler la vitesse de défilement
+//         if (imgContainer) {
+//           imgContainer.scrollLeft = scrollLeft - walk;
+//         }
+//       };
+//
+//       const stopDrag = () => {
+//         isDragging = false;
+//         imgContainer?.style.setProperty("cursor", "grab");
+//       };
+//
+//       imgContainer?.addEventListener("mousedown", startDrag);
+//       imgContainer?.addEventListener("mousemove", handleDrag);
+//       imgContainer?.addEventListener("mouseup", stopDrag);
+//
+//       imgContainer?.addEventListener("touchstart", startDrag);
+//       imgContainer?.addEventListener("touchmove", handleDrag);
+//       imgContainer?.addEventListener("touchend", stopDrag);
+//
+//
+//       imgContainer?.addEventListener("mousedown", startDrag);
+//       imgContainer?.addEventListener("touchstart", startDrag);
+//       document.addEventListener("mousemove", handleDrag);
+//       document.addEventListener("touchmove", handleDrag, {passive: false});
+//       document.addEventListener("mouseup", stopDrag);
+//       document.addEventListener("touchend", stopDrag);
+//       document.addEventListener("mouseleave", stopDrag);
+//     });
+    const scrollToTopButton = document.getElementById("scrollToTopButton");
+
+// Ajoutez un gestionnaire d'événements pour faire défiler vers le haut lorsque le bouton est cliqué
+    if (scrollToTopButton) {
+      scrollToTopButton.addEventListener("click", () => {
+        this.scrollToTop();
+      });
     }
+
+    /////////////
+    // Récupérez l'élément avec l'ID "scheduleDay"
+    const scheduleElement = document.getElementById("scheduleDay");
+
+// Vérifiez si l'élément existe
+    if (scheduleElement !== null) {
+      // Récupérez la date actuelle
+      const currentDate = new Date();
+      // Obtenez le jour de la semaine (0 = Dimanche, 1 = Lundi, ..., 6 = Samedi)
+      const currentDay = currentDate.getDay();
+
+      // Sélectionnez le <li> correspondant au jour actuel en utilisant l'indice (0 pour Lundi, 1 pour Mardi, etc.)
+      const scheduleList = scheduleElement.getElementsByTagName("li");
+
+      // Assurez-vous que l'indice est valide (entre 0 et 6)
+      if (currentDay >= 0 && currentDay < scheduleList.length) {
+        // Ajoutez la classe "current-day" au <li> correspondant
+        scheduleList[currentDay].classList.add("current-day");
+      }
+    }
+  }
+  scrollToTop(): void {
+    // Utilisez window.scrollTo() pour faire défiler la page vers le haut
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  currentDay: number = 0; // Variable pour stocker le jour de la semaine actuel (0 pour Dimanche, 1 pour Lundi, etc.)
+  toggleMenuValue : Boolean = false;
+  toggleMenu() {
+    this.toggleMenuValue = !this.toggleMenuValue;
+    console.log(this.toggleMenuValue)
   }
 }

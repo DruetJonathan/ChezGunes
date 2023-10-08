@@ -3,6 +3,12 @@ body{
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
-
+  background: url("./assets/images/02.jpg") fixed;
+  background-size: 150vw 150vh; /* Utilisez les unités vw et vh pour ajuster la taille */
+  height: 100vh;
 }
 
+
+html {
+  margin: 0;
+}
