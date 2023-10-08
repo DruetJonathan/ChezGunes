@@ -56,9 +56,22 @@ export class AppComponent implements OnInit  {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   currentDay: number = 0; // Variable pour stocker le jour de la semaine actuel (0 pour Dimanche, 1 pour Lundi, etc.)
-  toggleMenuValue : Boolean = false;
+  toggleMenuValue : Boolean = true;
+
   toggleMenu() {
     this.toggleMenuValue = !this.toggleMenuValue;
-    console.log(this.toggleMenuValue)
+    let test = document.getElementById("hamburger");
+    let nav = document.getElementsByTagName('nav');
+    if (test && nav){
+      if (this.toggleMenuValue){
+        test.classList.remove('fa-bars')
+        test.classList.add('fa-xmark')
+        nav[0].classList.add('show')
+      }else {
+        test.classList.add('fa-bars')
+        test.classList.remove('fa-xmark')
+        nav[0].classList.remove('show')
+      }
+    }
   }
 }

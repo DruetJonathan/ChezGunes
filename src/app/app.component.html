@@ -1,9 +1,7 @@
 <header id="main-header" #header>
   <img src="/assets/images/logo-removebgw.png" alt="">
-  <i class="fa-solid fa-bars" id="hamburger" (click)="toggleMenu()" [style.display]="toggleMenuValue ? 'none' : 'block'"></i>
-  <i class="fa-solid fa-xmark" id="cross" (click)="toggleMenu()" [style.display]="!toggleMenuValue ? 'none' : 'block'"></i>
-
-  <nav [style.display]="toggleMenuValue ? 'flex' : 'none'">
+  <i class="fa-solid fa-bars" id="hamburger" (click)="toggleMenu()"></i>
+  <nav>
     <a (click)="scrollToTop()"><i class="fa-solid fa-home"></i>Accueil</a>
     <a href="tel:+32-4-266-65-05"><i class="fa-solid fa-phone"></i>Appeler maintenant</a>
     <a
@@ -18,7 +16,7 @@
   </div>
 </section>
 <section id="LittleGallery">
-  <div id="imgContainer" >
+  <div id="imgContainer">
     <img src="/assets/images/galerie/gal01.jpg" alt="galerieImg" draggable="false">
     <img src="/assets/images/galerie/gal02.jpg" alt="galerieImg" draggable="false">
     <img src="/assets/images/galerie/gal03.jpg" alt="galerieImg" draggable="false">
